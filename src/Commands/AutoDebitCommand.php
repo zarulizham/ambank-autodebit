@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace ZarulIzham\AutoDebit\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class AutoDebitCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel-ambank-autodebit';
 
     public $description = 'My command';
 

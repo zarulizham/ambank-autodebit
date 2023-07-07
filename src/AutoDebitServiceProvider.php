@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton;
+namespace ZarulIzham\AutoDebit;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use VendorName\Skeleton\Commands\SkeletonCommand;
+use ZarulIzham\AutoDebit\Commands\AutoDebitCommand;
 
-class SkeletonServiceProvider extends PackageServiceProvider
+class AutoDebitServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
@@ -16,10 +16,10 @@ class SkeletonServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name('skeleton')
-            ->hasConfigFile()
+            ->name('laravel-ambank-autodebit')
+            ->hasConfigFile('autodebit')
             ->hasViews()
-            ->hasMigration('create_skeleton_table')
-            ->hasCommand(SkeletonCommand::class);
+            ->hasMigration('create_laravel-ambank-autodebit_table')
+            ->hasCommand(AutoDebitCommand::class);
     }
 }

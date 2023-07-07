@@ -8,11 +8,12 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('migration_table_name_table', function (Blueprint $table) {
+        $tableName = config('autodebit.table_name');
+        Schema::create($tableName, function (Blueprint $table) {
             $table->id();
-
-            // add fields
-
+            $table->string('bic_code', 10)->unique();
+            $table->string('bank_name', 100);
+            $table->string('bank_code', 20);
             $table->timestamps();
         });
     }
