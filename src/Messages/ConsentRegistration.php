@@ -11,17 +11,20 @@ use ZarulIzham\AutoDebit\Traits\HasSignature;
 
 class ConsentRegistration
 {
-    use HasSignature;
-    use HasHttpResponse;
     use HasAuthorizedHeader;
+    use HasHttpResponse;
+    use HasSignature;
 
     private $registrationable;
 
+    private $userable;
+
     public AutoDebitRegistration $autodebitRegistration;
 
-    public function register(array $data, $registrationable = null)
+    public function register(array $data, $registrationable = null, $userable = null)
     {
         $this->registrationable = $registrationable;
+        $this->userable = $userable;
 
         $this->validate($data);
 
@@ -85,6 +88,10 @@ class ConsentRegistration
 
         if ($this->registrationable) {
             $this->registrationable->save($this->autodebitRegistration);
+        }
+
+        if ($this->userable) {
+            $this->userable->save($this->autodebitRegistration);
         }
     }
 }

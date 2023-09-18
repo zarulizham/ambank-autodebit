@@ -22,15 +22,17 @@ class AutoDebit
         ];
     }
 
-    public function register(array $data, $registrationable)
+    public function register(array $data, $registrationable = null, $userable = null)
     {
         $request = new ConsentRegistration();
-        return $request->register($data, $registrationable);
+
+        return $request->register($data, $registrationable, $userable);
     }
 
     public function enquiry(string $consentId)
     {
         $request = new ConsentEnquiry();
+
         return $request->enquiry($consentId);
     }
 
