@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class AutoDebitDebitTransaction extends Model
 {
-    protected $table = config('autodebit.table_name.debit_transactions');
+    public function getTable()
+    {
+        return config('autodebit.table_name.debit_transactions', parent::getTable());
+    }
 
     protected $fillable = [
         'consent_id',

@@ -6,11 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class BICCode extends Model
 {
-    protected $table = config('autodebit.table_name.bic_codes');
+    public function getTable()
+    {
+        return config('autodebit.table_name.bic_codes', parent::getTable());
+    }
 
     protected $fillable = [
         'bank_name',
-        'bank_name',
+        'bank_code',
         'bic_code',
     ];
 }

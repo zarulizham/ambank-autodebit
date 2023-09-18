@@ -14,10 +14,11 @@ return [
     'product_id' => env('AUTODEBIT_PRODUCT_ID'),
 
     'table_name' => [
-        'bic_codes' => 'autodebit_bic_codes',
-        'callback_transactions' => 'autodebit_callback_transactions',
-        'registrations' => 'autodebit_registrations',
-        'debit_transactions' => 'autodebit_debit_transactions',
+        'bic_codes' => 'auto_debit_bic_codes',
+        'callback_transactions' => 'auto_debit_callback_transactions',
+        'registrations' => 'auto_debit_registrations',
+        'debit_transactions' => 'auto_debit_debit_transactions',
+        'terminations' => 'auto_debit_terminations',
     ],
     'callback' => [
         'path' => 'duitnow-autodebit/callback',

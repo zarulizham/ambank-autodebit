@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class AutoDebitCallbackTransaction extends Model
 {
-    protected $table = config('autodebit.table_name.callback_transactions');
+    public function getTable()
+    {
+        return config('autodebit.table_name.callback_transactions', parent::getTable());
+    }
 
     protected $fillable = [
         'consent_id',

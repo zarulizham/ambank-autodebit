@@ -1,13 +1,17 @@
 <?php
 
-namespace ZarulIzham\AutoDebit\Database\Seeders;
+namespace ZarulIzham\AutoDebit\Commands;
 
-use Illuminate\Database\Seeder;
+use Illuminate\Console\Command;
 use ZarulIzham\AutoDebit\Models\BICCode;
 
-class BICCodeSeeder extends Seeder
+class AutoDebitBICCodeSeeder extends Command
 {
-    public function run()
+    public $signature = 'autodebit:bic_code:seed';
+
+    public $description = 'Seed BIC Codes';
+
+    public function handle(): int
     {
         $codes = [
             [
@@ -187,5 +191,7 @@ class BICCodeSeeder extends Seeder
                 'bic_code' => $data['bic_code'],
             ], $data);
         }
+
+        return self::SUCCESS;
     }
 }
