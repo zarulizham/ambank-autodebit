@@ -4,7 +4,7 @@ namespace ZarulIzham\AutoDebit;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use ZarulIzham\AutoDebit\Commands\AutoDebitCommand;
+use ZarulIzham\AutoDebit\Commands\AutoDebitAuthenticateCommand;
 
 class AutoDebitServiceProvider extends PackageServiceProvider
 {
@@ -19,7 +19,13 @@ class AutoDebitServiceProvider extends PackageServiceProvider
             ->name('laravel-ambank-autodebit')
             ->hasConfigFile('autodebit')
             ->hasViews()
-            ->hasMigration('create_laravel-ambank-autodebit_table')
-            ->hasCommand(AutoDebitCommand::class);
+            ->hasRoute('web')
+            ->hasMigrations(
+                'create_autodebit_bic_codes_table',
+                'create_autodebit_callback_transactions_table',
+                'create_autodebit_debit_transactions_table',
+                'create_autodebit_registrations_table',
+            )
+            ->hasCommand(AutoDebitAuthenticateCommand::class);
     }
 }

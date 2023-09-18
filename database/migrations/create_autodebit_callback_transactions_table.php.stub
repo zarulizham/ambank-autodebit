@@ -8,13 +8,13 @@ return new class extends Migration
 {
     public function up()
     {
-        $tableName = config('autodebit.table_name.bic_codes');
+        $tableName = config('autodebit.table_name.callback_transactions');
+
         Schema::create($tableName, function (Blueprint $table) {
             $table->id();
-            $table->string('bic_code', 10)->unique();
-            $table->string('bank_name', 100);
-            $table->string('bank_code', 20);
-            $table->boolean('is_active')->nullable()->default(true);
+            $table->string('consent_id', 100)->nullable();
+            $table->json('callback_data')->nullable();
+            $table->string('consent_status', 50)->nullable();
             $table->timestamps();
         });
     }
