@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-class AutodebitRegistration extends Model
+class AutoDebitRegistration extends Model
 {
     protected $table = config('autodebit.table_name.registrations');
 

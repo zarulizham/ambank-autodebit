@@ -4,7 +4,7 @@ namespace ZarulIzham\AutoDebit\Messages;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
-use ZarulIzham\AutoDebit\Models\AutodebitDebitTransaction;
+use ZarulIzham\AutoDebit\Models\AutoDebitDebitTransaction;
 use ZarulIzham\AutoDebit\Traits\HasAuthorizedHeader;
 use ZarulIzham\AutoDebit\Traits\HasHttpResponse;
 use ZarulIzham\AutoDebit\Traits\HasSignature;
@@ -15,7 +15,7 @@ class DebitRequest
     use HasSignature;
     use HasAuthorizedHeader;
 
-    public AutodebitDebitTransaction $debitTransaction;
+    public AutoDebitDebitTransaction $debitTransaction;
 
     public function debit(array $data)
     {
@@ -59,7 +59,7 @@ class DebitRequest
 
     private function storeTransaction(array $data, array $body)
     {
-        $this->debitTransaction = AutodebitDebitTransaction::create([
+        $this->debitTransaction = AutoDebitDebitTransaction::create([
             'consent_id' => $data['consentRegId'],
             'amount' => $data['amount'],
             'bill_ref_no' => $data['billRefNo'],

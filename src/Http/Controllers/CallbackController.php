@@ -4,13 +4,13 @@ namespace ZarulIzham\AutoDebit\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Request;
-use ZarulIzham\AutoDebit\Models\AutodebitCallbackTransaction;
+use ZarulIzham\AutoDebit\Models\AutoDebitCallbackTransaction;
 
 class CallbackController extends Controller
 {
     public function __invoke(Request $request)
     {
-        AutodebitCallbackTransaction::create([
+        AutoDebitCallbackTransaction::create([
             'callback_data' => $request->all(),
         ]);
     }

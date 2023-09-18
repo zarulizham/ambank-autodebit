@@ -4,7 +4,7 @@ namespace ZarulIzham\AutoDebit\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AutodebitCallbackTransaction extends Model
+class AutoDebitCallbackTransaction extends Model
 {
     protected $table = config('autodebit.table_name.callback_transactions');
 

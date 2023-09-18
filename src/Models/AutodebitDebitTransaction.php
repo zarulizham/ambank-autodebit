@@ -5,7 +5,7 @@ namespace ZarulIzham\AutoDebit\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
-class AutodebitDebitTransaction extends Model
+class AutoDebitDebitTransaction extends Model
 {
     protected $table = config('autodebit.table_name.debit_transactions');
 
