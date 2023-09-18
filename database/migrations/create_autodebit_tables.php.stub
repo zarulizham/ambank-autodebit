@@ -1,0 +1,69 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up()
+    {
+        $registrationTableName = config('autodebit.table_name.registrations');
+        $callbackTableName = config('autodebit.table_name.callback_transactions');
+        $debitTableName = config('autodebit.table_name.debit_transactions');
+        $terminationTableName = config('autodebit.table_name.terminations');
+
+        Schema::create($registrationTableName, function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('userable_id')->nullable();
+            $table->string('userable_type', 100)->nullable();
+            $table->bigInteger('registrationable_id')->nullable();
+            $table->string('registrationable_type', 100)->nullable();
+            $table->string('consent_id', 100)->nullable();
+            $table->string('consent_status', 50)->nullable();
+            $table->double('max_amount', 15, 2)->nullable();
+            $table->string('consent_frequency', 20)->nullable();
+            $table->json('request_body')->nullable();
+            $table->json('response_body')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create($callbackTableName, function (Blueprint $table) use ($registrationTableName) {
+            $table->id();
+            $table->string('consent_id', 100)->nullable();
+            $table->foreign('consent_id')->references('consent_id')->on($registrationTableName)->onDelete('set null');
+            $table->json('callback_data')->nullable();
+            $table->string('consent_status', 50)->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create($debitTableName, function (Blueprint $table) use ($registrationTableName) {
+            $table->id();
+            $table->string('consent_id', 100)->nullable();
+            $table->foreign('consent_id')->references('consent_id')->on($registrationTableName)->onDelete('set null');
+            $table->double('amount', 15, 2)->nullable();
+            $table->string('bill_ref_no', 100)->nullable();
+            $table->string('bill_description', 300)->nullable();
+            $table->string('debit_status', 20)->nullable()->comment('ACSP, RJCT');
+            $table->string('reason_code', 100)->nullable();
+            $table->string('reason_detail', 100)->nullable();
+            $table->string('debit_account_id', 100)->nullable();
+            $table->json('request_body')->nullable();
+            $table->json('response_body')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create($terminationTableName, function (Blueprint $table) use ($registrationTableName) {
+            $table->id();
+            $table->string('consent_id', 100)->nullable();
+            $table->foreign('consent_id')->references('consent_id')->on($registrationTableName)->onDelete('set null');
+            $table->string('cancellation_reason', 256)->nullable();
+            $table->string('consent_status', 20)->nullable();
+            $table->string('request_status', 20)->nullable();
+            $table->string('reason_code', 34)->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+        });
+    }
+};
