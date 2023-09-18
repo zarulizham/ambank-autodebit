@@ -23,9 +23,7 @@ class AutoDebitServiceProvider extends PackageServiceProvider
             ->hasRoutes('web', 'api')
             ->hasMigrations(
                 'create_autodebit_bic_codes_table',
-                'create_autodebit_callback_transactions_table',
-                'create_autodebit_debit_transactions_table',
-                'create_autodebit_registrations_table',
+                'create_autodebit_tables',
             )
             ->hasCommands(AutoDebitBICCodeSeeder::class, AutoDebitAuthenticateCommand::class);
     }

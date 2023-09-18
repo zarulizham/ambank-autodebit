@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('userable_type', 100)->nullable();
             $table->bigInteger('registrationable_id')->nullable();
             $table->string('registrationable_type', 100)->nullable();
-            $table->string('consent_id', 100)->nullable();
+            $table->string('consent_id', 100)->nullable()->index();
             $table->string('consent_status', 50)->nullable();
             $table->double('max_amount', 15, 2)->nullable();
             $table->string('consent_frequency', 20)->nullable();
@@ -65,5 +65,18 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+    }
+
+    public function down()
+    {
+        $registrationTableName = config('autodebit.table_name.registrations');
+        $callbackTableName = config('autodebit.table_name.callback_transactions');
+        $debitTableName = config('autodebit.table_name.debit_transactions');
+        $terminationTableName = config('autodebit.table_name.terminations');
+
+        Schema::dropIfExists($terminationTableName);
+        Schema::dropIfExists($debitTableName);
+        Schema::dropIfExists($callbackTableName);
+        Schema::dropIfExists($registrationTableName);
     }
 };

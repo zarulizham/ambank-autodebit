@@ -18,4 +18,10 @@ return new class extends Migration
             $table->timestamps();
         });
     }
+
+    public function down()
+    {
+        $tableName = config('autodebit.table_name.bic_codes');
+        Schema::dropIfExists($tableName);
+    }
 };
