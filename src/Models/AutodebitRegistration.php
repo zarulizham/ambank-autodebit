@@ -14,6 +14,8 @@ class AutoDebitRegistration extends Model
     }
 
     protected $fillable = [
+        'userable_id',
+        'userable_type',
         'registrationable_id',
         'registrationable_type',
         'consent_id',
@@ -36,6 +38,11 @@ class AutoDebitRegistration extends Model
     ];
 
     public function registrationable(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
+    public function userable(): MorphTo
     {
         return $this->morphTo();
     }

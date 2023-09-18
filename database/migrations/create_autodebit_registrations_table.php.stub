@@ -11,6 +11,8 @@ return new class extends Migration
         $tableName = config('autodebit.table_name.registrations');
         Schema::create($tableName, function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('userable_id')->nullable();
+            $table->string('userable_type', 100)->nullable();
             $table->bigInteger('registrationable_id')->nullable();
             $table->string('registrationable_type', 100)->nullable();
             $table->string('consent_id', 100)->nullable();
