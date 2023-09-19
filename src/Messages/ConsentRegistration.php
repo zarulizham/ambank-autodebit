@@ -8,18 +8,20 @@ use ZarulIzham\AutoDebit\Models\AutoDebitRegistration;
 use ZarulIzham\AutoDebit\Traits\HasAuthorizedHeader;
 use ZarulIzham\AutoDebit\Traits\HasHttpResponse;
 use ZarulIzham\AutoDebit\Traits\HasSignature;
+use ZarulIzham\AutoDebit\Traits\ParseResponse;
 
 class ConsentRegistration
 {
     use HasAuthorizedHeader;
     use HasHttpResponse;
     use HasSignature;
+    use ParseResponse;
 
     private $registrationable;
 
     private $userable;
 
-    public AutoDebitRegistration $autodebitRegistration;
+    public AutoDebitRegistration $autoDebitRegistration;
 
     public function register(array $data, $registrationable = null, $userable = null)
     {
@@ -41,14 +43,21 @@ class ConsentRegistration
 
         $headers['Ambank-Signature'] = $this->signature('/api/EConsent/v1.0/ConsentReg/'.$this->sourceReferenceNumber, $this->ambankTimestamp, $body);
 
-        $this->response = Http::withHeaders($headers)
-            ->withOptions([
-                'debug' => false,
-            ])
-            ->withBody(json_encode($body), 'application/json')
-            ->post($url);
+        try {
+            $this->response = Http::withHeaders($headers)
+                ->withOptions([
+                    'debug' => false,
+                ])
+                ->withBody(json_encode($body), 'application/json')
+                ->post($url);
+        } catch (\Throwable $th) {
+            //throw $th;
+            $this->response = null;
+        }
 
         $this->saveResponse($data);
+
+        $this->parseResponse();
 
         return $this;
     }
@@ -81,17 +90,30 @@ class ConsentRegistration
 
     private function saveResponse($requestBody)
     {
-        $this->autodebitRegistration = AutoDebitRegistration::create([
+        $data = [
             'request_body' => $requestBody,
             'response_body' => $this->response->json(),
-        ]);
+            'max_amount' => $requestBody['maxAmount'],
+            'consent_frequency' => $requestBody['consentFreq'],
+        ];
+
+        if ($this->response->status() == 200) {
+            $data['consent_id'] = $this->response->object()->consentId;
+            $data['consent_status'] = $this->response->object()->consentStatus;
+        } else {
+            $data['consent_status'] = 'FAIL';
+        }
+
+        $this->autoDebitRegistration = AutoDebitRegistration::create($data);
 
         if ($this->registrationable) {
-            $this->registrationable->save($this->autodebitRegistration);
+            $this->autoDebitRegistration->registrationable()->associate($this->registrationable);
         }
 
         if ($this->userable) {
-            $this->userable->save($this->autodebitRegistration);
+            $this->autoDebitRegistration->userable()->associate($this->userable);
         }
+
+        $this->autoDebitRegistration->save();
     }
 }

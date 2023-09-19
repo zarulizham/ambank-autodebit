@@ -5,6 +5,7 @@ namespace ZarulIzham\AutoDebit;
 use ZarulIzham\AutoDebit\Messages\AuthenticationRequest;
 use ZarulIzham\AutoDebit\Messages\ConsentEnquiry;
 use ZarulIzham\AutoDebit\Messages\ConsentRegistration;
+use ZarulIzham\AutoDebit\Messages\ConsentTermination;
 use ZarulIzham\AutoDebit\Messages\DebitInquiry;
 use ZarulIzham\AutoDebit\Messages\DebitRequest;
 
@@ -48,5 +49,12 @@ class AutoDebit
         $request = new DebitInquiry();
 
         return $request->inquiry($data);
+    }
+
+    public function terminate(array $data)
+    {
+        $consent = new ConsentTermination();
+
+        return $consent->terminate($data);
     }
 }

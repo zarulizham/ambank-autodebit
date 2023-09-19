@@ -60,6 +60,7 @@ class AutoDebitRegistration extends Model
                     'PNDG' => __('Pending'),
                     'PDAU' => __('Pending Auth.'),
                     'CANC' => __('Cancelled'),
+                    'FAIL' => __('Failed'),
                     default => $value,
                 };
             },
