@@ -15,5 +15,15 @@ class BICCode extends Model
         'bank_name',
         'bank_code',
         'bic_code',
+        'is_active',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_active' => 'boolean',
     ];
 }
