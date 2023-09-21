@@ -37,6 +37,20 @@ class AutoDebitRegistration extends Model
         'max_amount' => 'double',
     ];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'request_body',
+        'response_body',
+        'registrationable_id',
+        'registrationable_type',
+        'userable_id',
+        'userable_type',
+    ];
+
     public function registrationable(): MorphTo
     {
         return $this->morphTo();
