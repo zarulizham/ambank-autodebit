@@ -17,15 +17,15 @@ class ConsentRegistration
     use HasSignature;
     use ParseResponse;
 
-    private $registrationable;
+    private $debitable;
 
     private $userable;
 
     public Consent $consent;
 
-    public function register(array $data, $registrationable = null, $userable = null)
+    public function register(array $data, $debitable = null, $userable = null)
     {
-        $this->registrationable = $registrationable;
+        $this->debitable = $debitable;
         $this->userable = $userable;
 
         $this->validate($data);
@@ -104,16 +104,16 @@ class ConsentRegistration
             $data['consent_status'] = 'FAIL';
         }
 
-        $this->Consent = Consent::create($data);
+        $this->consent = Consent::create($data);
 
-        if ($this->registrationable) {
-            $this->Consent->registrationable()->associate($this->registrationable);
+        if ($this->debitable) {
+            $this->consent->debitable()->associate($this->debitable);
         }
 
         if ($this->userable) {
-            $this->Consent->userable()->associate($this->userable);
+            $this->consent->userable()->associate($this->userable);
         }
 
-        $this->Consent->save();
+        $this->consent->save();
     }
 }

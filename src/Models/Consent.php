@@ -16,8 +16,8 @@ class Consent extends Model
     protected $fillable = [
         'userable_id',
         'userable_type',
-        'registrationable_id',
-        'registrationable_type',
+        'debitable_id',
+        'debitable_type',
         'consent_id',
         'consent_status',
         'max_amount',
@@ -45,13 +45,13 @@ class Consent extends Model
     protected $hidden = [
         'request_body',
         'response_body',
-        'registrationable_id',
-        'registrationable_type',
+        'debitable_id',
+        'debitable_type',
         'userable_id',
         'userable_type',
     ];
 
-    public function registrationable(): MorphTo
+    public function debitable(): MorphTo
     {
         return $this->morphTo();
     }

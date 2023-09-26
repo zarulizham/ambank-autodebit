@@ -14,8 +14,8 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('userable_id')->nullable();
             $table->string('userable_type', 100)->nullable();
-            $table->bigInteger('registrationable_id')->nullable();
-            $table->string('registrationable_type', 100)->nullable();
+            $table->bigInteger('debitable_id')->nullable();
+            $table->string('debitable_type', 100)->nullable();
             $table->string('consent_id', 100)->nullable()->index();
             $table->string('consent_status', 50)->nullable();
             $table->double('max_amount', 15, 2)->nullable();
