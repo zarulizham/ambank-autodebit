@@ -4,6 +4,7 @@ namespace ZarulIzham\AutoDebit\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class AutoDebitDebitTransaction extends Model
 {
@@ -22,9 +23,18 @@ class AutoDebitDebitTransaction extends Model
         'reason_detail',
         'reason_code',
         'debit_account_id',
+        'debited_at',
         'request_body',
         'response_body',
     ];
+
+    /**
+     * Get the consent that owns the AutoDebitDebitTransaction
+     */
+    public function consent(): BelongsTo
+    {
+        return $this->belongsTo(AutoDebitRegistration::class, 'consent_id', 'consent_id');
+    }
 
     /**
      * The attributes that should be cast to native types.
@@ -35,6 +45,7 @@ class AutoDebitDebitTransaction extends Model
         'request_body' => 'object',
         'response_body' => 'object',
         'amount' => 'double',
+        'debited_at' => 'datetime',
     ];
 
     /**

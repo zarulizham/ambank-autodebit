@@ -32,6 +32,7 @@
         "psr-4": {
             "ZarulIzham\\AutoDebit\\": "src/",
             "ZarulIzham\\AutoDebit\\Database\\Seeders\\": "database/seeders/",
+            "ZarulIzham\\AutoDebit\\Models\\": "src/Models/",
             "ZarulIzham\\AutoDebit\\Database\\Factories\\": "database/factories/"
         }
     },

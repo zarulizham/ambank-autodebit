@@ -43,8 +43,9 @@ class DebitRequest
             ->withBody(json_encode($body), 'application/json')
             ->post($url);
 
-        $this->updateTransaction();
         $this->parseResponse();
+
+        $this->updateTransaction();
 
         return $this;
     }
@@ -83,6 +84,7 @@ class DebitRequest
             'reason_code' => $this->response->object()->reasonCode,
             'reason_detail' => $this->response->object()->reasonDetail,
             'debit_account_id' => $this->response->object()->debtAcctId,
+            'debited_at' => $this->response->object()->creationDate,
             'response_body' => $this->response->json(),
         ]);
     }

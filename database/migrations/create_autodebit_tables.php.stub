@@ -49,6 +49,7 @@ return new class extends Migration
             $table->string('reason_code', 100)->nullable();
             $table->string('reason_detail', 100)->nullable();
             $table->string('debit_account_id', 100)->nullable();
+            $table->dateTime('debited_at')->nullable();
             $table->json('request_body')->nullable();
             $table->json('response_body')->nullable();
             $table->timestamps();
