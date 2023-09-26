@@ -32,7 +32,7 @@ class AuthenticationRequest
 
     public function getToken(): string
     {
-        return Cache::remember('duitnow_qr_token', config('autodebit.token_expiry'), function () {
+        return Cache::remember('duitnow_autodebit_token', config('autodebit.token_expiry'), function () {
             $this->authorize();
 
             return $this->response->object()->access_token;
