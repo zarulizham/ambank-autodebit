@@ -15,7 +15,7 @@ class ConsentEnquiry
 
     public function enquiry(string $consentId)
     {
-        $this->commonHeader();
+        $headers = $this->commonHeader();
 
         $url = config('autodebit.url').'/api/EConsent/v1.0/ConsentEnquiry/'.$this->sourceReferenceNumber;
 
