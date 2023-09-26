@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class AutoDebitDebitTransaction extends Model
+class DebitTransaction extends Model
 {
     public function getTable()
     {
@@ -29,11 +29,11 @@ class AutoDebitDebitTransaction extends Model
     ];
 
     /**
-     * Get the consent that owns the AutoDebitDebitTransaction
+     * Get the consent that owns the DebitTransaction
      */
     public function consent(): BelongsTo
     {
-        return $this->belongsTo(AutoDebitRegistration::class, 'consent_id', 'consent_id');
+        return $this->belongsTo(Consent::class, 'consent_id', 'consent_id');
     }
 
     /**

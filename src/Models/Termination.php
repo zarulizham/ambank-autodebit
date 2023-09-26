@@ -5,7 +5,7 @@ namespace ZarulIzham\AutoDebit\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
-class AutoDebitTermination extends Model
+class Termination extends Model
 {
     public function getTable()
     {

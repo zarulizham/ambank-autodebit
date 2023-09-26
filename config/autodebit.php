@@ -17,7 +17,7 @@ return [
     'table_name' => [
         'bic_codes' => 'auto_debit_bic_codes',
         'callback_transactions' => 'auto_debit_callback_transactions',
-        'registrations' => 'auto_debit_registrations',
+        'consents' => 'auto_debit_consents',
         'debit_transactions' => 'auto_debit_debit_transactions',
         'terminations' => 'auto_debit_terminations',
     ],

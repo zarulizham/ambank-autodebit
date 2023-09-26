@@ -4,7 +4,7 @@ namespace ZarulIzham\AutoDebit\Messages;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
-use ZarulIzham\AutoDebit\Models\AutoDebitRegistration;
+use ZarulIzham\AutoDebit\Models\Consent;
 use ZarulIzham\AutoDebit\Traits\HasAuthorizedHeader;
 use ZarulIzham\AutoDebit\Traits\HasHttpResponse;
 use ZarulIzham\AutoDebit\Traits\HasSignature;
@@ -21,7 +21,7 @@ class ConsentRegistration
 
     private $userable;
 
-    public AutoDebitRegistration $autoDebitRegistration;
+    public Consent $consent;
 
     public function register(array $data, $registrationable = null, $userable = null)
     {
@@ -104,16 +104,16 @@ class ConsentRegistration
             $data['consent_status'] = 'FAIL';
         }
 
-        $this->autoDebitRegistration = AutoDebitRegistration::create($data);
+        $this->Consent = Consent::create($data);
 
         if ($this->registrationable) {
-            $this->autoDebitRegistration->registrationable()->associate($this->registrationable);
+            $this->Consent->registrationable()->associate($this->registrationable);
         }
 
         if ($this->userable) {
-            $this->autoDebitRegistration->userable()->associate($this->userable);
+            $this->Consent->userable()->associate($this->userable);
         }
 
-        $this->autoDebitRegistration->save();
+        $this->Consent->save();
     }
 }

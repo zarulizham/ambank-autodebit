@@ -4,18 +4,18 @@ namespace ZarulIzham\AutoDebit\Messages;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
-use ZarulIzham\AutoDebit\Models\AutoDebitTermination;
+use ZarulIzham\AutoDebit\Models\Termination;
 use ZarulIzham\AutoDebit\Traits\HasAuthorizedHeader;
 use ZarulIzham\AutoDebit\Traits\HasHttpResponse;
 use ZarulIzham\AutoDebit\Traits\HasSignature;
 
 class ConsentTermination
 {
-    use HasSignature;
-    use HasHttpResponse;
     use HasAuthorizedHeader;
+    use HasHttpResponse;
+    use HasSignature;
 
-    public AutoDebitTermination $autodebitTermination;
+    public Termination $termination;
 
     public function terminate(array $data)
     {
@@ -58,7 +58,7 @@ class ConsentTermination
 
     private function storeTransaction($data)
     {
-        $this->autodebitTermination = AutoDebitTermination::create([
+        $this->Termination = Termination::create([
             'consent_id' => $data['consentId'],
             'cancellation_reason' => $data['reasonFoCancel'],
         ]);
@@ -66,7 +66,7 @@ class ConsentTermination
 
     private function updateTransaction()
     {
-        $this->autodebitTermination->update([
+        $this->Termination->update([
             'consent_status' => $this->response->json()->consentStatus,
             'request_status' => $this->response->json()->requestStatus,
             'reason_code' => $this->response->json()->reasonCode,

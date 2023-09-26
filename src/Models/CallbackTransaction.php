@@ -4,7 +4,7 @@ namespace ZarulIzham\AutoDebit\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AutoDebitCallbackTransaction extends Model
+class CallbackTransaction extends Model
 {
     public function getTable()
     {
