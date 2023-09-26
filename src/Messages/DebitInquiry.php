@@ -7,12 +7,14 @@ use Illuminate\Support\Facades\Validator;
 use ZarulIzham\AutoDebit\Traits\HasAuthorizedHeader;
 use ZarulIzham\AutoDebit\Traits\HasHttpResponse;
 use ZarulIzham\AutoDebit\Traits\HasSignature;
+use ZarulIzham\AutoDebit\Traits\ParseResponse;
 
 class DebitInquiry
 {
+    use HasAuthorizedHeader;
     use HasHttpResponse;
     use HasSignature;
-    use HasAuthorizedHeader;
+    use ParseResponse;
 
     public function inquiry(array $data)
     {
@@ -34,6 +36,8 @@ class DebitInquiry
             ])
             ->withBody(json_encode($body), 'application/json')
             ->post($url);
+
+        $this->parseResponse();
 
         return $this;
     }

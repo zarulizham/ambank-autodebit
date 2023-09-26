@@ -8,12 +8,14 @@ use ZarulIzham\AutoDebit\Models\AutoDebitDebitTransaction;
 use ZarulIzham\AutoDebit\Traits\HasAuthorizedHeader;
 use ZarulIzham\AutoDebit\Traits\HasHttpResponse;
 use ZarulIzham\AutoDebit\Traits\HasSignature;
+use ZarulIzham\AutoDebit\Traits\ParseResponse;
 
 class DebitRequest
 {
+    use HasAuthorizedHeader;
     use HasHttpResponse;
     use HasSignature;
-    use HasAuthorizedHeader;
+    use ParseResponse;
 
     public AutoDebitDebitTransaction $debitTransaction;
 
@@ -42,19 +44,24 @@ class DebitRequest
             ->post($url);
 
         $this->updateTransaction();
+        $this->parseResponse();
 
         return $this;
     }
 
     private function validate($data)
     {
-        return Validator::make($data, [
-            'amount' => 'required|string|max:14',
+        $data = Validator::make($data, [
+            'amount' => 'required|numeric',
             'consentRegId' => 'required|string',
-            'gpsCoordinate' => 'required|string|max:35',
             'billRefNo' => 'required|string|max:140',
             'billDesc' => 'nullable|string|max:140',
         ])->validate();
+
+        $data['amount'] = number_format($data['amount'], 2, '.', '');
+        $data['gpsCoordinate'] = config('autodebit.gps_coordinate');
+
+        return $data;
     }
 
     private function storeTransaction(array $data, array $body)
@@ -72,10 +79,10 @@ class DebitRequest
     private function updateTransaction()
     {
         $this->debitTransaction->update([
-            'debit_status' => $this->response->json()->requestStatus,
-            'reason_code' => $this->response->json()->reasonCode,
-            'reason_detail' => $this->response->json()->reasonDetail,
-            'debit_account_id' => $this->response->json()->debtAcctId,
+            'debit_status' => $this->response->object()->requestStatus,
+            'reason_code' => $this->response->object()->reasonCode,
+            'reason_detail' => $this->response->object()->reasonDetail,
+            'debit_account_id' => $this->response->object()->debtAcctId,
             'response_body' => $this->response->json(),
         ]);
     }

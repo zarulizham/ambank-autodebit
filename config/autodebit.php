@@ -12,6 +12,7 @@ return [
     'api_secret' => env('AUTODEBIT_API_SECRET'),
     'merchant_id' => env('AUTODEBIT_MERCHANT_ID'),
     'product_id' => env('AUTODEBIT_PRODUCT_ID'),
+    'gps_coordinate' => env('AUTODEBIT_GPS_COORDINATE'),
 
     'table_name' => [
         'bic_codes' => 'auto_debit_bic_codes',

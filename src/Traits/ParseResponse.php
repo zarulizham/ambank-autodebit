@@ -14,6 +14,8 @@ trait ParseResponse
 
         if ($this->response->status() == 401) {
             throw new Unauthorized($this->response->object()->ResponseMessage);
+        } elseif ($this->response->status() == 400) {
+            throw new Unauthorized($this->response->object()->ResponseMessage);
         }
     }
 }
