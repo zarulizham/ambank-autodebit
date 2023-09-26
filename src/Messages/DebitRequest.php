@@ -21,7 +21,7 @@ class DebitRequest
 
     public function debit(array $data)
     {
-        $this->validate($data);
+        $data = $this->validate($data);
 
         $headers = $this->commonHeader();
 
