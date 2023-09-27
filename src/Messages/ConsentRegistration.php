@@ -44,11 +44,11 @@ class ConsentRegistration
         $headers['Ambank-Signature'] = $this->signature('/api/EConsent/v1.0/ConsentReg/'.$this->sourceReferenceNumber, $this->ambankTimestamp, $body);
 
         $this->response = Http::withHeaders($headers)
-                ->withOptions([
-                    'debug' => false,
-                ])
-                ->withBody(json_encode($body), 'application/json')
-                ->post($url);
+            ->withOptions([
+                'debug' => false,
+            ])
+            ->withBody(json_encode($body), 'application/json')
+            ->post($url);
 
         $this->saveResponse($data);
 
@@ -59,7 +59,7 @@ class ConsentRegistration
 
     protected function validate($data)
     {
-        $data = return Validator::make($data, [
+        $data = Validator::make($data, [
             'debtorSourceOfFund' => 'required|in:01,02,03',
             'debtorName' => 'required|string|max:140',
             'debtorAgentBIC' => 'required|string|max:8',
