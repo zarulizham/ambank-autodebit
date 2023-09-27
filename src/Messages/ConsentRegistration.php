@@ -28,7 +28,7 @@ class ConsentRegistration
         $this->debitable = $debitable;
         $this->userable = $userable;
 
-        $this->validate($data);
+        $data = $this->validate($data);
 
         $headers = $this->commonHeader();
 
@@ -43,17 +43,12 @@ class ConsentRegistration
 
         $headers['Ambank-Signature'] = $this->signature('/api/EConsent/v1.0/ConsentReg/'.$this->sourceReferenceNumber, $this->ambankTimestamp, $body);
 
-        try {
-            $this->response = Http::withHeaders($headers)
+        $this->response = Http::withHeaders($headers)
                 ->withOptions([
                     'debug' => false,
                 ])
                 ->withBody(json_encode($body), 'application/json')
                 ->post($url);
-        } catch (\Throwable $th) {
-            //throw $th;
-            $this->response = null;
-        }
 
         $this->saveResponse($data);
 
@@ -64,7 +59,7 @@ class ConsentRegistration
 
     protected function validate($data)
     {
-        return Validator::make($data, [
+        $data = return Validator::make($data, [
             'debtorSourceOfFund' => 'required|in:01,02,03',
             'debtorName' => 'required|string|max:140',
             'debtorAgentBIC' => 'required|string|max:8',
@@ -72,7 +67,7 @@ class ConsentRegistration
             'debtorIdNo' => 'required|string|max:140',
             'debtorAcctId' => 'required|string|max:34',
             'debtorAcctType' => 'required|in:CACC,SVGS,PRXY,CCRD,WALL',
-            'maxAmount' => 'required|string|max:14',
+            'maxAmount' => 'required|numeric',
             'consentFreq' => 'required|string|in:01,02,03,04,05,06',
             'consentId' => 'nullable|string|max:34',
             'expiryDate' => 'required|date|date_format:Y-m-d',
@@ -86,6 +81,10 @@ class ConsentRegistration
             'debtorAcctType' => __('account type'),
             'consentFreq' => __('consent frequency'),
         ])->validate();
+
+        $data['maxAmount'] = number_format($data['maxAmount'], 2, '.', '');
+
+        return $data;
     }
 
     private function saveResponse($requestBody)
