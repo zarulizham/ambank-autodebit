@@ -3,6 +3,7 @@
 namespace ZarulIzham\AutoDebit\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CallbackTransaction extends Model
 {
@@ -24,4 +25,12 @@ class CallbackTransaction extends Model
     protected $casts = [
         'callback_data' => 'object',
     ];
+
+    /**
+     * Get the consent that owns the Termination
+     */
+    public function consent(): BelongsTo
+    {
+        return $this->belongsTo(Consent::class, 'consent_id', 'consent_id');
+    }
 }

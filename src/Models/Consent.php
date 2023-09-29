@@ -4,6 +4,8 @@ namespace ZarulIzham\AutoDebit\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Consent extends Model
@@ -79,5 +81,23 @@ class Consent extends Model
                 };
             },
         );
+    }
+
+    public function debitTransactions(): HasMany
+    {
+        return $this->hasMany(DebitTransaction::class, 'consent_id', 'consent_id');
+    }
+
+    /**
+     * Get the termination associated with the Consent
+     */
+    public function termination(): HasOne
+    {
+        return $this->hasOne(Termination::class, 'consent_id', 'consent_id')->latestOfMany();
+    }
+
+    public function callbacks(): HasMany
+    {
+        return $this->hasMany(CallbackTransaction::class, 'consent_id', 'consent_id');
     }
 }

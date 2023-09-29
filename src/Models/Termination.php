@@ -4,6 +4,7 @@ namespace ZarulIzham\AutoDebit\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Termination extends Model
 {
@@ -50,5 +51,13 @@ class Termination extends Model
                 };
             },
         );
+    }
+
+    /**
+     * Get the consent that owns the Termination
+     */
+    public function consent(): BelongsTo
+    {
+        return $this->belongsTo(Consent::class, 'consent_id', 'consent_id');
     }
 }
