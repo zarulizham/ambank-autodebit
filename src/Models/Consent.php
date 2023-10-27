@@ -2,6 +2,7 @@
 
 namespace ZarulIzham\AutoDebit\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -99,5 +100,14 @@ class Consent extends Model
     public function callbacks(): HasMany
     {
         return $this->hasMany(CallbackTransaction::class, 'consent_id', 'consent_id');
+    }
+
+    protected function getExpiryDateAttribute()
+    {
+        try {
+            return Carbon::createFromFormat('Y-m-d', $this->request_body->expiryDate)->startOfDay();
+        } catch (\Throwable $th) {
+            return null
+        }
     }
 }
