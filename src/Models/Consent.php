@@ -107,7 +107,7 @@ class Consent extends Model
         try {
             return Carbon::createFromFormat('Y-m-d', $this->request_body->expiryDate)->startOfDay();
         } catch (\Throwable $th) {
-            return null
+            return null;
         }
     }
 }
