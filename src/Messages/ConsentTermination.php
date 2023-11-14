@@ -58,7 +58,7 @@ class ConsentTermination
 
     private function storeTransaction($data)
     {
-        $this->Termination = Termination::create([
+        $this->termination = Termination::create([
             'consent_id' => $data['consentId'],
             'cancellation_reason' => $data['reasonFoCancel'],
         ]);
@@ -66,7 +66,7 @@ class ConsentTermination
 
     private function updateTransaction()
     {
-        $this->Termination->update([
+        $this->termination->update([
             'consent_status' => $this->response->json()->consentStatus,
             'request_status' => $this->response->json()->requestStatus,
             'reason_code' => $this->response->json()->reasonCode,
