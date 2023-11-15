@@ -10,7 +10,7 @@ return new class extends Migration
     {
         $tableNames = config('autodebit.table_name');
 
-        Schema::create($tableNames['consents'], function (Blueprint $table) {
+        Schema::create($tableNames['consents'], function (Blueprint $table) use ($tableNames) {
             $table->id();
             $table->bigInteger('userable_id')->nullable();
             $table->string('userable_type', 100)->nullable();
@@ -20,6 +20,9 @@ return new class extends Migration
             $table->string('consent_status', 50)->nullable();
             $table->double('max_amount', 15, 2)->nullable();
             $table->string('consent_frequency', 20)->nullable();
+            $table->string('debtor_agent_bic', 10)->nullable()->index();
+            $table->foreign('debtor_agent_bic')->references('bic_code')->on($tableNames['bic_codes'])->onDelete('cascade');
+            $table->string('debtor_account_id', 34)->nullable();
             $table->json('request_body')->nullable();
             $table->json('response_body')->nullable();
             $table->timestamps();

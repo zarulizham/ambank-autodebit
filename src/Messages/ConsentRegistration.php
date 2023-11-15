@@ -94,6 +94,8 @@ class ConsentRegistration
             'response_body' => $this->response->json(),
             'max_amount' => $requestBody['maxAmount'],
             'consent_frequency' => $requestBody['consentFreq'],
+            'debtor_agent_bic' => $requestBody['debtorAgentBIC'],
+            'debtor_account_id' => $requestBody['debtorAcctId'],
         ];
 
         if ($this->response->status() == 200) {

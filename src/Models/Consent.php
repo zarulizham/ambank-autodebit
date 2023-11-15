@@ -5,9 +5,11 @@ namespace ZarulIzham\AutoDebit\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Str;
 
 class Consent extends Model
 {
@@ -25,6 +27,8 @@ class Consent extends Model
         'consent_status',
         'max_amount',
         'consent_frequency',
+        'debtor_agent_bic',
+        'debtor_account_id',
         'request_body',
         'response_body',
     ];
@@ -52,6 +56,16 @@ class Consent extends Model
         'debitable_type',
         'userable_id',
         'userable_type',
+        'debtor_account_id',
+    ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'debtor_account_id_masked',
     ];
 
     public function debitable(): MorphTo
@@ -109,5 +123,18 @@ class Consent extends Model
         } catch (\Throwable $th) {
             return null;
         }
+    }
+
+    /**
+     * Get the bank that owns the Consent
+     */
+    public function bank(): BelongsTo
+    {
+        return $this->belongsTo(BICCode::class, 'debtor_agent_bic', 'bic_code');
+    }
+
+    public function getDebtorAccountIdMaskedAttribute()
+    {
+        return Str::mask($this->debtor_account_id ?? '', '*', 0, -4) ?: '-';
     }
 }
