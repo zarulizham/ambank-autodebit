@@ -8,12 +8,14 @@ use ZarulIzham\AutoDebit\Models\Termination;
 use ZarulIzham\AutoDebit\Traits\HasAuthorizedHeader;
 use ZarulIzham\AutoDebit\Traits\HasHttpResponse;
 use ZarulIzham\AutoDebit\Traits\HasSignature;
+use ZarulIzham\AutoDebit\Traits\ParseResponse;
 
 class ConsentTermination
 {
     use HasAuthorizedHeader;
     use HasHttpResponse;
     use HasSignature;
+    use ParseResponse;
 
     public Termination $termination;
 
@@ -40,6 +42,8 @@ class ConsentTermination
             ])
             ->withBody(json_encode($body), 'application/json')
             ->post($url);
+
+        $this->parseResponse();
 
         $this->updateTransaction();
 
